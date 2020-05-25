@@ -21,10 +21,6 @@ public class AccessingDataMongodbApplication implements CommandLineRunner {
     @Autowired
     private LocationRepository locationRepository;
 
-    @Autowired
-    private CClient customerCClient;
-
-
     public static void main(String[] args) {
         SpringApplication.run(AccessingDataMongodbApplication.class, args);
     }
@@ -32,11 +28,17 @@ public class AccessingDataMongodbApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-    	locationRepository.insert(new Location(30,30));
-    	locationRepository.insert(new Location(40,40));
+    	locationRepository.save(new Location(30,30));
+    	locationRepository.save(new Location(40,40));
 
     	List<Location> locationList = locationRepository.findAll();
     	locationRepository.saveAll(locationList);
+
+    	for(Location t : locationList){
+    	    locationRepository.delete(t);
+        }
+
+    	saveCustomer();
 
     }
 
